@@ -1,0 +1,156 @@
+openapi: 3.0.3
+info:
+  title: Backgammon API
+  version: 1.0.0
+
+paths:
+  /api/games:
+    post:
+      summary: Start a new game against the AI
+      operationId: createGame
+      responses:
+        '201':
+          description: Game created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameStateDto'
+
+  /api/games/{gameId}:
+    get:
+      summary: Get current game state
+      operationId: getGame
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Current game state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameStateDto'
+
+  /api/games/{gameId}/moves:
+    post:
+      summary: Submit a player move
+      operationId: makeMove
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoveDto'
+      responses:
+        '200':
+          description: Updated game state after move
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameStateDto'
+        '400':
+          description: Invalid move
+
+  /api/games/{gameId}/roll:
+    post:
+      summary: Roll dice
+      operationId: rollDice
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dice rolled, updated game state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameStateDto'
+
+components:
+  schemas:
+    GameStateDto:
+      type: object
+      properties:
+        gameId:
+          type: string
+        board:
+          $ref: '#/components/schemas/BoardDto'
+        currentPlayer:
+          type: string
+          enum: [WHITE, BLACK]
+        dice:
+          type: array
+          items:
+            type: integer
+        phase:
+          type: string
+          enum: [WAITING_FOR_ROLL, WAITING_FOR_MOVE, GAME_OVER]
+        winner:
+          type: string
+          enum: [WHITE, BLACK]
+          nullable: true
+
+    BoardDto:
+      type: object
+      properties:
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/PointDto'
+          minItems: 24
+          maxItems: 24
+        bar:
+          $ref: '#/components/schemas/BarDto'
+        borneOff:
+          $ref: '#/components/schemas/BorneOffDto'
+
+    PointDto:
+      type: object
+      properties:
+        index:
+          type: integer
+        color:
+          type: string
+          enum: [WHITE, BLACK]
+          nullable: true
+        count:
+          type: integer
+
+    BarDto:
+      type: object
+      properties:
+        white:
+          type: integer
+        black:
+          type: integer
+
+    BorneOffDto:
+      type: object
+      properties:
+        white:
+          type: integer
+        black:
+          type: integer
+
+    MoveDto:
+      type: object
+      required: [from, to]
+      properties:
+        from:
+          type: integer
+          description: Source point index (0-23) or 24 for bar
+        to:
+          type: integer
+          description: Target point index (0-23) or 25 for bear-off
