@@ -2,7 +2,7 @@
 
 ## Stack técnico
 - **Backend**: Spring Boot 3.5 / Java 17 / Lombok / Maven
-- **Frontend**: Angular 21 / TypeScript 5.9 / standalone components / Vitest
+- **Frontend**: Angular 21 / TypeScript 5.9 / standalone components / signals
 - **Contrato API**: `shared/openapi.yaml` (API-first)
 
 ---
@@ -18,7 +18,7 @@
 
 ```
 ROLLING_FOR_FIRST_TURN
-  └─ cada jugador tira 1 dado
+  └─ cada jugador tira 1 dado (POST /first-roll)
   └─ el mayor empieza usando esos dos dados
        ↓
 WAITING_FOR_ROLL
@@ -36,63 +36,60 @@ WAITING_FOR_MOVE
 
 ## Lo que ya está implementado
 
-### `backend/src/main/java/com/backgammon/game/model/`
+### `backend/` — Completo y funcional
 
-| Clase | Tipo | Descripción |
-|-------|------|-------------|
-| `Player` | enum | WHITE / BLACK con `opponent()` |
-| `GamePhase` | enum | ROLLING_FOR_FIRST_TURN / WAITING_FOR_ROLL / WAITING_FOR_MOVE / GAME_OVER |
-| `Point` | `@Value` | Casilla del tablero (índice 0-23), con `isEmpty`, `isBlot`, `isOwnedBy`, `isOpenFor` |
-| `Bar` | `@Value` | Fichas en la barra, consulta por jugador |
-| `BorneOff` | `@Value` | Fichas escapadas, consulta por jugador |
-| `Board` | `@Value` | 24 puntos + barra + escapadas; `Board.initial()` con posición estándar |
-| `GameState` | `@Value @With` | Estado completo; `GameState.newGame(id)` arranca con `currentPlayer=null` y fase `ROLLING_FOR_FIRST_TURN` |
+| Capa | Clases |
+|------|--------|
+| `model/` | `Player`, `GamePhase`, `Point`, `Bar`, `BorneOff`, `Board`, `GameState`, `Move` |
+| `rules/` | `DiceRoller`, `FirstTurnResolver`, `MoveValidator`, `BearOffValidator`, `WinConditionChecker` |
+| `engine/` | `GameEngine`, `BoardUpdater` |
+| `session/` | `GameRepository`, `GameService` |
+| `api/` | `GameController`, `GameExceptionHandler`, `GameMapper`, DTOs |
 
-**Posición inicial del tablero** (índices 0-23, WHITE mueve de alto a bajo):
-- WHITE: índice 23 (×2), 12 (×5), 7 (×3), 5 (×5)
-- BLACK: índice 0 (×2), 11 (×5), 16 (×3), 18 (×5)
+**Endpoints disponibles:**
+- `POST /api/games` → crea partida
+- `GET /api/games/{gameId}` → estado actual
+- `POST /api/games/{gameId}/first-roll` → tirada del primer turno
+- `POST /api/games/{gameId}/roll` → tirada de dados
+- `POST /api/games/{gameId}/moves` → aplica movimiento
+
+### `frontend/` — Funcional, pendiente de rediseño
+
+| Capa | Archivos |
+|------|----------|
+| `core/models/` | `game.models.ts` |
+| `core/services/` | `game.service.ts` |
+| `game/board/` | `BoardComponent` |
+| `game/point/` | `PointComponent` |
+| `game/dice/` | `DiceComponent` |
+| `game/game-page/` | `GamePageComponent` |
 
 ---
 
 ## Próximos pasos en orden
 
-### 1. `game/rules/` — Reglas del juego
-- `DiceRoller` — genera tiradas aleatorias (1 dado o 2 dados); los dobles producen 4 movimientos
-- `FirstTurnResolver` — compara dados iniciales y determina quién empieza (repetir si empate)
-- `MoveValidator` — valida si un movimiento (`from` → `to`) es legal para el jugador y dados actuales
-- `BearOffValidator` — reglas especiales de escape (todas las fichas deben estar en el home board)
-- `WinConditionChecker` — detecta si un jugador tiene 15 fichas escapadas
+### 1. Rediseño del frontend
+El frontend actual es funcional pero básico. Objetivos del rediseño:
+- Tablero con triángulos reales (puntos alternando colores rojo/blanco sobre marrón)
+- Numeración de casillas visible
+- Animación de movimiento de fichas
+- Indicador visual claro del jugador activo y los dados disponibles
+- Resaltar casillas de destino válidas al seleccionar una ficha
+- Pantalla de inicio y pantalla de fin de partida
+- Diseño responsive
 
-### 2. `game/engine/` — Motor del juego
-- `GameEngine` — orquesta transiciones de estado usando las reglas:
-  - `rollForFirstTurn(GameState, Player, int die)` → `GameState`
-  - `rollDice(GameState)` → `GameState`
-  - `applyMove(GameState, Move)` → `GameState`
-- `Move` — record/value con `from` (0-23 ó 24=barra) y `to` (0-23 ó 25=escapar)
+### 2. Tests del backend
+El código está diseñado para ser testeable. Prioridad:
+- Tests unitarios de `MoveValidator` y `BearOffValidator` (casos límite)
+- Tests unitarios de `GameEngine` (transiciones de estado)
+- Tests de integración de los endpoints HTTP
 
-### 3. `session/` — Gestión de partidas
-- `GameRepository` — almacena partidas en memoria (`Map<String, GameState>`)
-- `GameService` — fachada que conecta motor + repositorio; genera IDs de partida (UUID)
-
-### 4. `api/` — Capa HTTP
-Implementar los 4 endpoints del contrato `shared/openapi.yaml`:
-- `POST /api/games` → crea partida nueva
-- `GET /api/games/{gameId}` → devuelve estado actual
-- `POST /api/games/{gameId}/roll` → tira dados
-- `POST /api/games/{gameId}/moves` → aplica movimiento
-
-Subcarpetas: `controller/`, `dto/`, `mapper/`
-
-### 5. `frontend/` — Interfaz Angular
-- `core/models/` — interfaces TypeScript espejando los DTOs del OpenAPI
-- `core/services/GameService` — cliente HTTP hacia la API
-- `game/board/` — componente tablero (24 puntos, barra, área de escape)
-- `game/dice/` — componente dados
-- `game/point/` — componente casilla con fichas
+### 3. IA
+- La carpeta `ai/` está vacía
+- No priorizar hasta tener el juego pulido entre humanos
 
 ---
 
 ## Decisiones pendientes
-- **IA**: la carpeta `ai/` está vacía; no priorizar hasta tener el juego funcional entre humanos
-- **Persistencia**: empezar con repositorio en memoria; añadir base de datos si se necesita multisesión
-- **WebSocket vs polling**: la API actual es REST puro; valorar WebSocket si se quiere tiempo real
+- **Persistencia**: actualmente en memoria; añadir base de datos si se necesita multisesión
+- **WebSocket vs polling**: la API es REST puro; valorar WebSocket para tiempo real
