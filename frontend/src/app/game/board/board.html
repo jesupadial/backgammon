@@ -1,0 +1,65 @@
+<div class="board">
+  <div class="board-row board-top">
+    <div class="board-section">
+      @for (index of topLeftIndices; track index) {
+        <app-point
+          [point]="pointAt(index)"
+          [isTop]="true"
+          [isSelected]="isSelected(index)"
+          (pointClick)="pointClick.emit(index)"
+        />
+      }
+    </div>
+    <div class="bar" (click)="pointClick.emit(barIndex)">
+      @for (i of blackBarCheckers(); track i) {
+        <div class="checker black"></div>
+      }
+    </div>
+    <div class="board-section">
+      @for (index of topRightIndices; track index) {
+        <app-point
+          [point]="pointAt(index)"
+          [isTop]="true"
+          [isSelected]="isSelected(index)"
+          (pointClick)="pointClick.emit(index)"
+        />
+      }
+    </div>
+    <div class="borne-off" (click)="pointClick.emit(bearOffIndex)">
+      <span class="borne-off-label">OFF</span>
+      <span class="borne-off-count black">{{ gameState().board.borneOff.black }}</span>
+    </div>
+  </div>
+
+  <div class="board-row board-bottom">
+    <div class="board-section">
+      @for (index of bottomLeftIndices; track index) {
+        <app-point
+          [point]="pointAt(index)"
+          [isTop]="false"
+          [isSelected]="isSelected(index)"
+          (pointClick)="pointClick.emit(index)"
+        />
+      }
+    </div>
+    <div class="bar" (click)="pointClick.emit(barIndex)">
+      @for (i of whiteBarCheckers(); track i) {
+        <div class="checker white"></div>
+      }
+    </div>
+    <div class="board-section">
+      @for (index of bottomRightIndices; track index) {
+        <app-point
+          [point]="pointAt(index)"
+          [isTop]="false"
+          [isSelected]="isSelected(index)"
+          (pointClick)="pointClick.emit(index)"
+        />
+      }
+    </div>
+    <div class="borne-off" (click)="pointClick.emit(bearOffIndex)">
+      <span class="borne-off-label">OFF</span>
+      <span class="borne-off-count white">{{ gameState().board.borneOff.white }}</span>
+    </div>
+  </div>
+</div>

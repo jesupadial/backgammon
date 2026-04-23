@@ -1,0 +1,80 @@
+.game-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  min-height: 100vh;
+  background: #1a1a2e;
+  color: #eee;
+  font-family: sans-serif;
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+  }
+}
+
+.status-bar {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.phase {
+  color: #aaa;
+  text-transform: lowercase;
+  letter-spacing: 1px;
+}
+
+.current-player {
+  font-weight: bold;
+  padding: 4px 12px;
+  border-radius: 12px;
+
+  &.white { background: #eee; color: #111; }
+  &.black { background: #222; color: #eee; border: 1px solid #555; }
+}
+
+.winner {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: gold;
+}
+
+.board-area {
+  display: flex;
+  justify-content: center;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.action-button {
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  background: #4a7c59;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover { background: #5a9c6e; }
+}
+
+.welcome {
+  color: #aaa;
+  font-size: 1.1rem;
+  margin-top: 40px;
+}

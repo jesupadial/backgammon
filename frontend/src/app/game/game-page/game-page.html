@@ -1,0 +1,44 @@
+<div class="game-page">
+  <header class="game-header">
+    <h1>Backgammon</h1>
+    <button class="action-button" (click)="createGame()">New Game</button>
+  </header>
+
+  @if (gameState(); as state) {
+    <div class="status-bar">
+      <span class="phase">{{ state.phase }}</span>
+      @if (state.currentPlayer) {
+        <span class="current-player" [class.white]="state.currentPlayer === 'WHITE'" [class.black]="state.currentPlayer === 'BLACK'">
+          {{ state.currentPlayer }}'s turn
+        </span>
+      }
+      @if (state.winner) {
+        <span class="winner">🏆 {{ state.winner }} wins!</span>
+      }
+    </div>
+
+    <div class="board-area">
+      <app-board
+        [gameState]="state"
+        [selectedFrom]="selectedFrom()"
+        (pointClick)="onPointClick($event)"
+      />
+    </div>
+
+    @if (state.dice.length > 0) {
+      <app-dice [dice]="state.dice" />
+    }
+
+    <div class="actions">
+      @if (state.phase === 'ROLLING_FOR_FIRST_TURN') {
+        <button class="action-button" (click)="rollForFirstTurn('WHITE')">WHITE rolls</button>
+        <button class="action-button" (click)="rollForFirstTurn('BLACK')">BLACK rolls</button>
+      }
+      @if (state.phase === 'WAITING_FOR_ROLL') {
+        <button class="action-button" (click)="rollDice()">Roll dice</button>
+      }
+    </div>
+  } @else {
+    <p class="welcome">Press "New Game" to start.</p>
+  }
+</div>

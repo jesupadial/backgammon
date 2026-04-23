@@ -1,0 +1,40 @@
+.point {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  width: 48px;
+  min-height: 120px;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 4px 0;
+  transition: background 0.15s;
+
+  &.top {
+    flex-direction: column;
+  }
+
+  &.selected {
+    background: rgba(255, 255, 100, 0.3);
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.checker {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.4);
+  margin: 1px 0;
+
+  &.white {
+    background: radial-gradient(circle at 35% 35%, #fff, #ccc);
+  }
+
+  &.black {
+    background: radial-gradient(circle at 35% 35%, #555, #111);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+}

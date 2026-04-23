@@ -1,0 +1,14 @@
+<div
+  class="point"
+  [class.top]="isTop()"
+  [class.selected]="isSelected()"
+  (click)="pointClick.emit()"
+>
+  @for (i of checkerIndices(); track i) {
+    <div
+      class="checker"
+      [class.white]="point().color === 'WHITE'"
+      [class.black]="point().color === 'BLACK'"
+    ></div>
+  }
+</div>
