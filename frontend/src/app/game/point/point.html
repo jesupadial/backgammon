@@ -3,6 +3,7 @@
   [class.top]="isTop()"
   [class.dark]="isDark()"
   [class.selected]="isSelected()"
+  [class.valid-destination]="isValidDestination()"
   (click)="pointClick.emit()"
 >
   @for (i of checkerIndices(); track i) {

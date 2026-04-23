@@ -7,6 +7,7 @@
           [isTop]="true"
           [isDark]="index % 2 === 0"
           [isSelected]="isSelected(index)"
+          [isValidDestination]="isValidDestination(index)"
           (pointClick)="pointClick.emit(index)"
         />
       }
@@ -23,6 +24,7 @@
           [isTop]="true"
           [isDark]="index % 2 === 0"
           [isSelected]="isSelected(index)"
+          [isValidDestination]="isValidDestination(index)"
           (pointClick)="pointClick.emit(index)"
         />
       }
@@ -41,6 +43,7 @@
           [isTop]="false"
           [isDark]="index % 2 === 0"
           [isSelected]="isSelected(index)"
+          [isValidDestination]="isValidDestination(index)"
           (pointClick)="pointClick.emit(index)"
         />
       }
@@ -57,6 +60,7 @@
           [isTop]="false"
           [isDark]="index % 2 === 0"
           [isSelected]="isSelected(index)"
+          [isValidDestination]="isValidDestination(index)"
           (pointClick)="pointClick.emit(index)"
         />
       }

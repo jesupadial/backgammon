@@ -16,6 +16,7 @@ const BOTTOM_RIGHT_INDICES = [5, 4, 3, 2, 1, 0];
 export class BoardComponent {
   readonly gameState = input.required<GameStateModel>();
   readonly selectedFrom = input<number | null>(null);
+  readonly validDestinations = input<number[]>([]);
   readonly pointClick = output<number>();
 
   protected readonly barIndex = BAR_INDEX;
@@ -39,5 +40,9 @@ export class BoardComponent {
 
   protected isSelected(index: number): boolean {
     return this.selectedFrom() === index;
+  }
+
+  protected isValidDestination(index: number): boolean {
+    return this.validDestinations().includes(index);
   }
 }

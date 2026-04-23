@@ -125,6 +125,11 @@ components:
           type: string
           enum: [WHITE, BLACK]
           nullable: true
+        validMoves:
+          type: array
+          items:
+            $ref: '#/components/schemas/MoveDto'
+          description: All legal moves available for the current player given the remaining dice
 
     BoardDto:
       type: object

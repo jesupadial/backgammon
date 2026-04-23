@@ -30,6 +30,7 @@ export interface GameStateModel {
   dice: number[];
   phase: GamePhase;
   winner: PlayerColor | null;
+  validMoves: MoveModel[];
 }
 
 export interface MoveModel {

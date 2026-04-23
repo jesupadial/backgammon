@@ -15,7 +15,7 @@
     clip-path: polygon(0 100%, 100% 100%, 50% 0);
     background: #f5f0e8;
     z-index: 0;
-    transition: filter 0.15s;
+    transition: background 0.15s;
   }
 
   &.dark::before {
@@ -34,9 +34,18 @@
     filter: brightness(1.5);
   }
 
+  &.valid-destination::before {
+    animation: triangle-pulse 0.8s ease-in-out infinite alternate;
+  }
+
   &:hover::before {
     filter: brightness(1.15);
   }
+}
+
+@keyframes triangle-pulse {
+  from { background: #d4a017; }
+  to   { background: #ffe066; }
 }
 
 .checker {

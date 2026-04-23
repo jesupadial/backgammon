@@ -8,5 +8,6 @@ public record GameStateDto(
     String currentPlayer,
     List<Integer> dice,
     String phase,
-    String winner
+    String winner,
+    List<MoveDto> validMoves
 ) {}

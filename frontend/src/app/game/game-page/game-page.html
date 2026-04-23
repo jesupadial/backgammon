@@ -21,6 +21,7 @@
       <app-board
         [gameState]="state"
         [selectedFrom]="selectedFrom()"
+        [validDestinations]="validDestinations()"
         (pointClick)="onPointClick($event)"
       />
     </div>

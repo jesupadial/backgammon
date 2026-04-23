@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { BAR_INDEX, BEAR_OFF_INDEX, GameStateModel, PlayerColor } from '../../core/models/game.models';
 import { GameService } from '../../core/services/game.service';
 import { BoardComponent } from '../board/board';
@@ -15,6 +15,15 @@ export class GamePageComponent {
 
   protected readonly gameState = signal<GameStateModel | null>(null);
   protected readonly selectedFrom = signal<number | null>(null);
+
+  protected readonly validDestinations = computed(() => {
+    const from = this.selectedFrom();
+    const state = this.gameState();
+    if (from === null || !state) return [];
+    return state.validMoves
+      .filter(move => move.from === from)
+      .map(move => move.to);
+  });
 
   protected createGame(): void {
     this.gameService.createGame().subscribe(state => this.gameState.set(state));
