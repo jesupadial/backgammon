@@ -71,12 +71,13 @@ WAITING_FOR_MOVE
 ### 1. Rediseño del frontend
 El frontend actual es funcional pero básico. Objetivos del rediseño:
 - Tablero con triángulos reales (puntos alternando colores rojo/blanco sobre marrón)
+- Resaltar casillas de destino válidas al seleccionar una ficha
 - Numeración de casillas visible
 - Animación de movimiento de fichas
 - Indicador visual claro del jugador activo y los dados disponibles
-- Resaltar casillas de destino válidas al seleccionar una ficha
 - Pantalla de inicio y pantalla de fin de partida
 - Diseño responsive
+- Revisión del frontal
 
 ### 2. Tests del backend
 El código está diseñado para ser testeable. Prioridad:
