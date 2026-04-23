@@ -4,6 +4,10 @@
 *.iml
 *.ipr
 
+# Claude Code
+.claude/
+CLAUDE.md
+
 # macOS
 .DS_Store
 
