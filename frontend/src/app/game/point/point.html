@@ -1,6 +1,7 @@
 <div
   class="point"
   [class.top]="isTop()"
+  [class.dark]="isDark()"
   [class.selected]="isSelected()"
   (click)="pointClick.emit()"
 >

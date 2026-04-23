@@ -5,6 +5,7 @@
         <app-point
           [point]="pointAt(index)"
           [isTop]="true"
+          [isDark]="index % 2 === 0"
           [isSelected]="isSelected(index)"
           (pointClick)="pointClick.emit(index)"
         />
@@ -20,6 +21,7 @@
         <app-point
           [point]="pointAt(index)"
           [isTop]="true"
+          [isDark]="index % 2 === 0"
           [isSelected]="isSelected(index)"
           (pointClick)="pointClick.emit(index)"
         />
@@ -37,6 +39,7 @@
         <app-point
           [point]="pointAt(index)"
           [isTop]="false"
+          [isDark]="index % 2 === 0"
           [isSelected]="isSelected(index)"
           (pointClick)="pointClick.emit(index)"
         />
@@ -52,6 +55,7 @@
         <app-point
           [point]="pointAt(index)"
           [isTop]="false"
+          [isDark]="index % 2 === 0"
           [isSelected]="isSelected(index)"
           (pointClick)="pointClick.emit(index)"
         />

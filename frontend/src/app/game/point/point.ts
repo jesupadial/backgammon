@@ -10,6 +10,7 @@ export class PointComponent {
   readonly point = input.required<PointModel>();
   readonly isSelected = input(false);
   readonly isTop = input(false);
+  readonly isDark = input(false);
   readonly pointClick = output<void>();
 
   protected readonly checkerIndices = computed(() =>

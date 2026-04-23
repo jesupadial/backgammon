@@ -1,11 +1,13 @@
 .board {
   display: flex;
   flex-direction: column;
-  background: #2d5a1b;
-  border: 4px solid #8B4513;
+  background: #5c3317;
+  border: 6px solid #2c1810;
   border-radius: 8px;
   overflow: hidden;
   width: fit-content;
+  gap: 48px;
+  padding: 8px;
 }
 
 .board-row {
@@ -15,8 +17,8 @@
 
 .board-section {
   display: flex;
-  gap: 4px;
-  padding: 8px;
+  gap: 2px;
+  padding: 0 4px;
 }
 
 .bar {
@@ -24,27 +26,27 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  background: #8B4513;
+  width: 52px;
+  background: #2c1810;
   cursor: pointer;
   gap: 2px;
-  padding: 4px 0;
+  padding: 8px 0;
 }
 
 .checker {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  border: 2px solid rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(0, 0, 0, 0.5);
   flex-shrink: 0;
 
   &.white {
-    background: radial-gradient(circle at 35% 35%, #fff, #ccc);
+    background: radial-gradient(circle at 35% 35%, #ffffff, #cccccc);
   }
 
   &.black {
-    background: radial-gradient(circle at 35% 35%, #555, #111);
-    border-color: rgba(255, 255, 255, 0.2);
+    background: radial-gradient(circle at 35% 35%, #555555, #111111);
+    border-color: rgba(255, 255, 255, 0.25);
   }
 }
 
@@ -53,22 +55,24 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  background: #1a3a0a;
+  width: 64px;
+  background: #2c1810;
   cursor: pointer;
   gap: 4px;
 }
 
 .borne-off-label {
-  font-size: 0.65rem;
-  color: rgba(255, 255, 255, 0.5);
-  letter-spacing: 1px;
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 2px;
+  font-family: sans-serif;
 }
 
 .borne-off-count {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: bold;
+  font-family: sans-serif;
 
-  &.white { color: #eee; }
-  &.black { color: #888; }
+  &.white { color: #f0e8c8; }
+  &.black { color: #8b1a1a; }
 }

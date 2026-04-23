@@ -1,40 +1,60 @@
 .point {
+  position: relative;
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
-  width: 48px;
-  min-height: 120px;
+  width: 52px;
+  height: 200px;
   cursor: pointer;
-  border-radius: 4px;
-  padding: 4px 0;
-  transition: background 0.15s;
+  overflow: visible;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(0 100%, 100% 100%, 50% 0);
+    background: #f5f0e8;
+    z-index: 0;
+    transition: filter 0.15s;
+  }
+
+  &.dark::before {
+    background: #c8956a;
+  }
 
   &.top {
     flex-direction: column;
+
+    &::before {
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+    }
   }
 
-  &.selected {
-    background: rgba(255, 255, 100, 0.3);
+  &.selected::before {
+    filter: brightness(1.5);
   }
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
+  &:hover::before {
+    filter: brightness(1.15);
   }
 }
 
 .checker {
+  position: relative;
+  z-index: 1;
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 2px solid rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
   margin: 1px 0;
 
   &.white {
-    background: radial-gradient(circle at 35% 35%, #fff, #ccc);
+    background: radial-gradient(circle at 35% 35%, #ffffff, #cccccc);
   }
 
   &.black {
-    background: radial-gradient(circle at 35% 35%, #555, #111);
-    border-color: rgba(255, 255, 255, 0.2);
+    background: radial-gradient(circle at 35% 35%, #555555, #111111);
+    border-color: rgba(255, 255, 255, 0.25);
   }
 }
