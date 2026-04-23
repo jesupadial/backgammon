@@ -34,6 +34,48 @@ paths:
               schema:
                 $ref: '#/components/schemas/GameStateDto'
 
+  /api/games/{gameId}/first-roll:
+    post:
+      summary: Roll one die for the first-turn determination
+      operationId: rollForFirstTurn
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FirstTurnRollDto'
+      responses:
+        '200':
+          description: Die rolled, updated game state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameStateDto'
+
+  /api/games/{gameId}/roll:
+    post:
+      summary: Roll dice
+      operationId: rollDice
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dice rolled, updated game state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameStateDto'
+
   /api/games/{gameId}/moves:
     post:
       summary: Submit a player move
@@ -60,24 +102,6 @@ paths:
         '400':
           description: Invalid move
 
-  /api/games/{gameId}/roll:
-    post:
-      summary: Roll dice
-      operationId: rollDice
-      parameters:
-        - name: gameId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Dice rolled, updated game state
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GameStateDto'
-
 components:
   schemas:
     GameStateDto:
@@ -96,7 +120,7 @@ components:
             type: integer
         phase:
           type: string
-          enum: [WAITING_FOR_ROLL, WAITING_FOR_MOVE, GAME_OVER]
+          enum: [ROLLING_FOR_FIRST_TURN, WAITING_FOR_ROLL, WAITING_FOR_MOVE, GAME_OVER]
         winner:
           type: string
           enum: [WHITE, BLACK]
@@ -143,6 +167,14 @@ components:
           type: integer
         black:
           type: integer
+
+    FirstTurnRollDto:
+      type: object
+      required: [player]
+      properties:
+        player:
+          type: string
+          enum: [WHITE, BLACK]
 
     MoveDto:
       type: object

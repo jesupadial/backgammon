@@ -4,6 +4,7 @@ import com.backgammon.game.engine.GameEngine;
 import com.backgammon.game.model.GameState;
 import com.backgammon.game.model.Move;
 import com.backgammon.game.model.Player;
+import com.backgammon.game.rules.DiceRoller;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -12,10 +13,12 @@ import java.util.UUID;
 public class GameService {
     private final GameRepository gameRepository;
     private final GameEngine gameEngine;
+    private final DiceRoller diceRoller;
 
-    public GameService(GameRepository gameRepository, GameEngine gameEngine) {
+    public GameService(GameRepository gameRepository, GameEngine gameEngine, DiceRoller diceRoller) {
         this.gameRepository = gameRepository;
         this.gameEngine = gameEngine;
+        this.diceRoller = diceRoller;
     }
 
     public GameState createGame() {
@@ -29,8 +32,8 @@ public class GameService {
             .orElseThrow(() -> new IllegalArgumentException("Game not found: " + gameId));
     }
 
-    public GameState rollForFirstTurn(String gameId, Player player, int die) {
-        GameState updated = gameEngine.rollForFirstTurn(findGame(gameId), player, die);
+    public GameState rollForFirstTurn(String gameId, Player player) {
+        GameState updated = gameEngine.rollForFirstTurn(findGame(gameId), player, diceRoller.rollOne());
         gameRepository.save(updated);
         return updated;
     }
