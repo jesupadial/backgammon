@@ -33,4 +33,13 @@ public class Point {
         if (isOwnedBy(player)) return true;
         return isBlot();
     }
+
+    public Point addChecker(Player player) {
+        return new Point(index, player, checkerCount + 1);
+    }
+
+    public Point removeChecker() {
+        int newCount = checkerCount - 1;
+        return new Point(index, newCount == 0 ? null : owner, newCount);
+    }
 }

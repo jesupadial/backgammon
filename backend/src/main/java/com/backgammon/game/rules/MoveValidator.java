@@ -56,4 +56,24 @@ public class MoveValidator {
     private int moveDistance(Player player, int from, int to) {
         return player == Player.WHITE ? from - to : to - from;
     }
+
+    public int consumedDie(GameState state, Move move) {
+        Player player = state.getCurrentPlayer();
+        if (move.isFromBar()) return barEntryDie(player, move.to());
+        if (move.isBearOff()) return bearOffConsumedDie(state, move.from());
+        return moveDistance(player, move.from(), move.to());
+    }
+
+    private int barEntryDie(Player player, int destinationPoint) {
+        return player == Player.WHITE ? Move.BAR - destinationPoint : destinationPoint + 1;
+    }
+
+    private int bearOffConsumedDie(GameState state, int fromPoint) {
+        Board board = state.getBoard();
+        Player player = state.getCurrentPlayer();
+        return state.getDice().stream()
+            .filter(die -> bearOffValidator.isValidBearOff(board, player, fromPoint, die))
+            .min(Integer::compareTo)
+            .orElseThrow();
+    }
 }

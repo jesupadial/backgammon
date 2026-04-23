@@ -14,4 +14,8 @@ public class BorneOff {
     public int countFor(Player player) {
         return player == Player.WHITE ? whiteCount : blackCount;
     }
+
+    public BorneOff addCheckerFor(Player player) {
+        return player == Player.WHITE ? new BorneOff(whiteCount + 1, blackCount) : new BorneOff(whiteCount, blackCount + 1);
+    }
 }

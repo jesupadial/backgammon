@@ -1,10 +1,12 @@
 package com.backgammon.game.model;
 
 import lombok.Value;
+import lombok.With;
 import java.util.ArrayList;
 import java.util.List;
 
 @Value
+@With
 public class Board {
     private static final int POINT_COUNT = 24;
 
@@ -31,6 +33,12 @@ public class Board {
 
     public Point point(int index) {
         return points.get(index);
+    }
+
+    public Board withUpdatedPoint(Point updatedPoint) {
+        List<Point> mutablePoints = new ArrayList<>(points);
+        mutablePoints.set(updatedPoint.getIndex(), updatedPoint);
+        return new Board(List.copyOf(mutablePoints), bar, borneOff);
     }
 
     private static List<Point> initialPoints() {
